@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.runmars.app",
+      "sha256_cert_fingerprints": [
+        "99:71:79:DA:E6:F5:AE:08:D6:03:3A:49:0A:D0:4D:C9:0C:3C:D0:EE:84:48:C6:39:55:88:C0:F2:EA:68:93:88"
+      ]
+    }
+  }
+]
