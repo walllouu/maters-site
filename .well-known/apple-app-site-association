@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["96UCJRV6L5.com.runmars.app"],
+        "components": [
+          { "/": "/s", "?": { "id": "?*" } }
+        ],
+        "appID": "96UCJRV6L5.com.runmars.app",
+        "paths": ["/s"]
+      }
+    ]
+  }
+}
