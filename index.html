@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maters — Move. Mates. It Matters.</title>
+  <meta property="og:title" content="Maters">
+  <meta property="og:description" content="Move. Mates. It Matters.">
+  <style>
+    html, body { margin: 0; height: 100%; background: #FBEDE3; }
+  </style>
+</head>
+<body>
+  <script>
+    // Page d'accueil provisoire : envoie chaque visiteur vers le bon store.
+    // Pourra être remplacée plus tard par un vrai site vitrine.
+    var ua = navigator.userAgent;
+    window.location.replace(/Android/i.test(ua)
+      ? 'https://play.google.com/store/apps/details?id=com.runmars.app'
+      : 'https://apps.apple.com/fr/app/maters/id6768300932');
+  </script>
+</body>
+</html>
