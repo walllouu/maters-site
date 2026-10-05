@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maters</title>
+  <meta property="og:title" content="Rejoins ma session sur Maters">
+  <meta property="og:description" content="Move. Mates. It Matters.">
+  <meta name="robots" content="noindex">
+  <style>
+    html, body { margin: 0; height: 100%; background: #FBEDE3; }
+  </style>
+</head>
+<body>
+  <script>
+    (function () {
+      var APP_STORE = 'https://apps.apple.com/fr/app/maters/id6768300932';
+      var PLAY_STORE = 'https://play.google.com/store/apps/details?id=com.runmars.app';
+      var ua = navigator.userAgent;
+      var id = new URLSearchParams(window.location.search).get('id');
+      var validId = id && /^[A-Za-z0-9-]+$/.test(id);
+
+      // ── ANDROID ──────────────────────────────────────────────
+      // Lien "intent" : Android ouvre Maters sur la session si elle est installée,
+      // sinon il bascule lui-même sur la fiche Play Store (browser_fallback_url).
+      if (/Android/i.test(ua)) {
+        if (!validId) { window.location.replace(PLAY_STORE); return; }
+        window.location.href = 'intent://session/' + encodeURIComponent(id)
+          + '#Intent;scheme=maters;package=com.runmars.app;S.browser_fallback_url='
+          + encodeURIComponent(PLAY_STORE) + ';end';
+        return;
+      }
+
+      // ── iOS ──────────────────────────────────────────────────
+      // Navigateurs intégrés d'Instagram / Facebook : ils bloquent les Universal Links,
+      // donc on arrive ici même si l'app est installée.
+      var inAppBrowser = /Instagram|FBAN|FBAV/i.test(ua);
+
+      // Partout ailleurs (Safari, Messages, WhatsApp...) : si l'app était installée,
+      // iOS l'aurait ouverte directement. On arrive ici = app absente → App Store.
+      if (!inAppBrowser || !validId) {
+        window.location.replace(APP_STORE);
+        return;
+      }
+
+      // Dans Instagram / Facebook : on tente d'ouvrir l'app sur la session,
+      // et on bascule sur l'App Store si rien ne se passe.
+      var opened = false;
+      var promptShown = false;
+
+      function goStore() {
+        if (!opened && !document.hidden) window.location.replace(APP_STORE);
+      }
+
+      var fallback = setTimeout(function () {
+        if (!promptShown) goStore();
+      }, 1500);
+
+      function markOpened() { opened = true; clearTimeout(fallback); }
+      document.addEventListener('visibilitychange', function () { if (document.hidden) markOpened(); });
+      window.addEventListener('pagehide', markOpened);
+
+      // Si une demande d'ouverture s'affiche, on attend la réponse
+      window.addEventListener('blur', function () { promptShown = true; clearTimeout(fallback); });
+      window.addEventListener('focus', function () {
+        if (promptShown && !opened) setTimeout(goStore, 700);
+      });
+
+      window.location.href = 'maters://session/' + encodeURIComponent(id);
+    })();
+  </script>
+</body>
+</html>
